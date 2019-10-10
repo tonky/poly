@@ -1,0 +1,18 @@
+apiVersion: skaffold/v1beta15
+kind: Config
+build:
+  artifacts:
+    - image: tonky.dev/api-gateway
+      context: ./api-gateway/
+    - image: tonky.dev/store
+      context: ./store/
+deploy:
+  kubectl:
+    manifests:
+      - ./api-gateway/k8s-service.yaml
+      - ./store/k8s-service.yaml
+portForward:
+  - resourceType: deployment
+    resourceName: api-gateway
+    port: 8080
+    localPort: 9000

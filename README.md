@@ -73,3 +73,18 @@ Background worker
 Tooling?
 
 
+skaffold:
+curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v0.39.0/skaffold-linux-amd64 \
+&& chmod +x skaffold \
+&& sudo mv skaffold /usr/local/bin
+
+minikube:
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
+mk start --vm-driver kvm2
+
+local registry:
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+https://kind.sigs.k8s.io/docs/user/quick-start/
+
+KUBECONFIG="$(kind get kubeconfig-path --name="kind")" skaffold dev
