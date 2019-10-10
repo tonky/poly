@@ -15,7 +15,7 @@ func main() {
     r.Use(middleware.RequestID)
 
     r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("Hello world!\n"))
+        w.Write([]byte("Hello gw!\n"))
     })
 
     r.HandleFunc("/store*", StoreProxyHandler)
@@ -36,8 +36,6 @@ func StoreProxyHandler(w http.ResponseWriter, r *http.Request) {
 	}}
 
     fmt.Printf("Proxying to store: %s\n", r.URL.Path)
-
-	// req.Header.Set("X-Forwarded-Host", req.Header.Get("Host"))
 
 	proxy.ServeHTTP(w, r)
 }
