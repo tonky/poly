@@ -88,3 +88,5 @@ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 https://kind.sigs.k8s.io/docs/user/quick-start/
 
 KUBECONFIG="$(kind get kubeconfig-path --name="kind")" skaffold --port-forward dev
+
+kubectl port-forward service/gw-lb 8888:8080

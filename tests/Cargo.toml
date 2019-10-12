@@ -10,3 +10,6 @@ build = "build.rs"
 [dependencies]
 reqwest = "0.9.22"
 scopeguard = "1.0.0"
+log = "0.4.8"
+chrono = "0.4.9"
+fern = "0.5.8"
