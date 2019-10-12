@@ -10,6 +10,7 @@ build = "build.rs"
 [dependencies]
 reqwest = "0.9.22"
 scopeguard = "1.0.0"
-log = "0.4.8"
 chrono = "0.4.9"
 fern = "0.5.8"
+tracing = { version = "0.1", features = ["max_level_debug", "release_max_level_warn"] }
+tracing-subscriber = "0.1.5"

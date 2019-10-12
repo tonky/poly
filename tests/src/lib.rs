@@ -1,7 +1,9 @@
 use fern;
-use log::{warn,info,trace,debug,error};
+use tracing::{warn, info, trace, debug, error, span, Level, instrument};
 use chrono;
+use tracing_subscriber::FmtSubscriber;
 
+/*
 fn setup_logger() -> Result<(), fern::InitError> {
     fern::Dispatch::new()
         .format(|out, message, record| {
@@ -13,13 +15,13 @@ fn setup_logger() -> Result<(), fern::InitError> {
                 message
             ))
         })
-        .level(log::LevelFilter::Debug)
+        .level(Level::DEBUG)
         .chain(std::io::stdout())
         .chain(fern::log_file("output.log")?)
         .apply()?;
     Ok(())
 }
-
+*/
 #[cfg(test)]
 mod tests {
     use reqwest;
@@ -30,8 +32,12 @@ mod tests {
     use std::rc::Rc;
     use super::*;
 
+    #[instrument]
     fn init_and_run_on_cluster() -> Child {
-        setup_logger().unwrap();
+        // setup_logger().unwrap();
+        let my_subscriber = FmtSubscriber::new();
+
+        tracing::subscriber::set_global_default(my_subscriber).expect("setting tracing default failed");
 
         let sec = time::Duration::from_millis(500);
 
@@ -100,12 +106,13 @@ mod tests {
     }
 
     #[test]
+    #[instrument]
     fn get_store() -> Result<(), Box<dyn std::error::Error>> {
         let mut child = init_and_run_on_cluster();
 
         {
             defer! {{
-                println!("Killing child...");
+                info!("Killing child...");
 
                 child.kill().expect("command wasn't running");
 
@@ -120,7 +127,7 @@ mod tests {
 
 
             let resp = reqwest::get("http://localhost:9000/store/")?.text()?;
-            println!("{:#?}", resp);
+            info!("Gor stores resp: {:#?}", resp);
 
             assert_eq!(resp, "Hello store!\n");
         }
