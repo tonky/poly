@@ -126,7 +126,12 @@ mod tests {
             }};
 
 
-            let resp = reqwest::get("http://localhost:9000/store/")?.text()?;
+            let client = reqwest::Client::builder()
+                .timeout(time::Duration::from_secs(1))
+                .build()?;
+
+            let resp = client.get("http://localhost:9000/store/").send()?.text()?;
+
             info!("Gor stores resp: {:#?}", resp);
 
             assert_eq!(resp, "Hello store!\n");
