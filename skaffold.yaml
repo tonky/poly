@@ -11,8 +11,13 @@ deploy:
     manifests:
     - ./api-gateway/k8s-service.yaml
     - ./store/k8s-service.yaml
+    - ./jaeger-all-in-one-template.yml
 portForward:
 - resourceType: deployment
   resourceName: api-gateway
   port: 8080
   localPort: 9000
+- resourceType: service
+  resourceName: jaeger-query
+  port: 80
+  localPort: 9001
