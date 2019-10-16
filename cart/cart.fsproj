@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Database.fs" />
+    <Compile Include="Config.fs" />
+
+    <Compile Include="Templates\App.fs" />
+    <Compile Include="Templates\Index.fs" />
+    <Compile Include="Templates\NotFound.fs" />
+    <Compile Include="Templates\InternalError.fs" />
+
+    <Compile Include="Router.fs" />
+    <Compile Include="Program.fs" />
+
+    <Content Include="static\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="*.sqlite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="FSharp.Control.Websockets" Version="0.2.2" />
+    <PackageReference Include="Giraffe" Version="3.6.0" />
+    <PackageReference Include="Saturn" Version="0.9.0" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.10.0" />
+  </ItemGroup>
+  <!-- <Import Project="..\..\.paket\Paket.Restore.targets" /> -->
+</Project>

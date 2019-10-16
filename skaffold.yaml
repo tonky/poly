@@ -6,12 +6,15 @@ build:
     context: ./api-gateway/
   - image: tonky.dev/store
     context: ./store/
+  - image: tonky.dev/cart
+    context: ./cart/
 deploy:
   kubectl:
     manifests:
     - ./api-gateway/k8s-service.yaml
     - ./store/k8s-service.yaml
-    - ./jaeger-all-in-one-template.yml
+    - ./jaeger-all-in-one-template.yaml
+    - ./cart/k8s-service.yaml
 portForward:
 - resourceType: deployment
   resourceName: api-gateway

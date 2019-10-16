@@ -1,0 +1,33 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: cart
+  labels:
+    app: cart
+spec:
+  selector:
+    matchLabels:
+      app: cart
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cart
+    spec:
+      containers:
+      - name: cart
+        image: tonky.dev/cart:latest  # or just image: redis
+        ports:
+        - containerPort: 8085
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart-service
+spec:
+  selector:
+    app: cart
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8085

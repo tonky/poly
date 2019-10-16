@@ -1,3 +1,6 @@
 target/
 vendor/
 Cargo.lock
+out/
+bin/
+obj/

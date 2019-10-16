@@ -38,8 +38,6 @@ func main() {
 
     log.Printf("Global tracer registered: %b?", ot.IsGlobalTracerRegistered())
 
-	defer closer.Close()
-
     r := chi.NewRouter()
     r.Use(middleware.RequestID)
     r.Use(otm.Middleware())
