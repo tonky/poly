@@ -9,8 +9,8 @@ COPY *.fs ./
 COPY Templates ./Templates
 COPY static ./static
 
-RUN dotnet build -c Release --no-restore
-RUN dotnet publish --no-build --nologo -c Release
+# RUN dotnet build -c Release --no-restore
+RUN dotnet publish --no-restore --nologo -c Release
 
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0-alpine AS runtime
