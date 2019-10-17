@@ -13,8 +13,8 @@ deploy:
     manifests:
     - ./api-gateway/k8s-service.yaml
     - ./store/k8s-service.yaml
-    - ./jaeger-all-in-one-template.yaml
     - ./cart/k8s-service.yaml
+    - ./jaeger-all-in-one-template.yaml
 portForward:
 - resourceType: deployment
   resourceName: api-gateway

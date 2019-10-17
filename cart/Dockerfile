@@ -1,23 +1,21 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0-alpine AS build
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
-# COPY *.csproj ./
-COPY cart.fsproj ./
-# COPY src/Migrations/Migrations.fsproj ./
-# RUN dotnet restore Migrations.fsproj
+COPY cart.fsproj .
+
 RUN dotnet restore
 
-# Copy everything else and build
-# COPY src/cart/* ./
-# RUN dotnet publish -c Release -o out
-COPY . ./
-RUN dotnet publish -c Release -o out
+COPY *.fs ./
+COPY Templates ./Templates
+COPY static ./static
 
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/core/runtime:3.0
-# FROM alpine:latest
+RUN dotnet build -c Release --no-restore
+RUN dotnet publish --no-build --nologo -c Release
+
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0-alpine AS runtime
 WORKDIR /app
-COPY --from=build-env /app/out .
 ENV Logging__LogLevel__Default Warning
+
+COPY --from=build /app/bin/Release/netcoreapp3.0 ./
 ENTRYPOINT ["dotnet", "cart.dll"]
